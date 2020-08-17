@@ -9,6 +9,7 @@ import { Post } from '../../interfaces/interfaces';
 })
 export class Tab1Page implements OnInit {
   posts: Post[] = [];
+  habilitado = false;
 
   constructor(private postsService: PostsService) {}
 
@@ -16,8 +17,18 @@ export class Tab1Page implements OnInit {
     this.siguientes();
   }
 
-  siguientes(event?) {
-    this.postsService.getPosts()
+  reload(event) {
+    // console.log('Hola');
+    this.siguientes(event, true);
+    this.posts = [];
+    this.habilitado = false;
+  }
+
+
+  siguientes(event?, pull: boolean = false) {
+    // console.log(pull);
+
+    this.postsService.getPosts(pull)
       .subscribe(resp => {
         console.log(resp);
         this.posts.push(...resp.posts);
@@ -27,7 +38,7 @@ export class Tab1Page implements OnInit {
 
           // Lo desactivamos cuando no haya nada publicaciones
           if (resp.posts.length === 0) {
-            event.target.disabled = true;
+            this.habilitado = true;
           }
         }
       });

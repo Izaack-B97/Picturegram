@@ -12,12 +12,16 @@
 <ion-content [fullscreen]="true">
   
   <!-- Refresher -->
+  <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
 
   <!-- Posts -->
   <app-posts [posts]="posts"></app-posts>
   
   <!-- Infinite Scroll -->
-  <ion-infinite-scroll threshold="150px" (ionInfinite)="siguientes($event)">
+  <ion-infinite-scroll [disabled]="habilitado" threshold="150px" (ionInfinite)="siguientes($event)">
     <ion-infinite-scroll-content
       loadingSpinner="bubbles"
       loadingText="Cargando publicaciones">
